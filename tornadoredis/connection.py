@@ -72,7 +72,10 @@ class Connection(object):
                         timeout=self.timeout
                     )
                     sock.setsockopt(socket.SOL_TCP, socket.TCP_NODELAY, 1)
-                self._stream = IOStream(sock, io_loop=self._io_loop)
+                try:
+                    self._stream = IOStream(sock, io_loop=self._io_loop)
+                except:
+                    self._stream = IOStream(sock)
                 self._stream.set_close_callback(self.on_stream_close)
                 self.info['db'] = 0
                 self.info['pass'] = None
